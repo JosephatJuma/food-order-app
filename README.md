@@ -1,2 +1,2 @@
-# unify
+# JJ food
 food shopping app

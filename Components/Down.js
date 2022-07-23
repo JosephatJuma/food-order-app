@@ -6,11 +6,11 @@ export const Down = () => {
     <View style={styles.down}>
       <Text style={styles.text}>Copyright 2022, Unify Foods</Text>
       <View style={styles.socials}>
-        <Zocial name="facebook" size={30} color="white" style={styles.icon} />
-        <Zocial name="twitter" size={30} color="white" style={styles.icon} />
-        <Zocial name="linkedin" size={30} color="white" style={styles.icon} />
-        <Zocial name="instagram" size={30} color="white" style={styles.icon} />
-        <Zocial name="github" size={30} color="white" style={styles.icon} />
+        <Zocial name="facebook" size={15} color="white" style={styles.icon} />
+        <Zocial name="twitter" size={15} color="white" style={styles.icon} />
+        <Zocial name="linkedin" size={15} color="white" style={styles.icon} />
+        <Zocial name="instagram" size={15} color="white" style={styles.icon} />
+        <Zocial name="github" size={15} color="white" style={styles.icon} />
       </View>
     </View>
   );

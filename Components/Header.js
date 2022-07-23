@@ -17,7 +17,7 @@ export const Header = ({ cart }) => {
 };
 const styles = StyleSheet.create({
   header: {
-    //backgroundColor: "green",
+    //backgroundColor: "#800020",
     backgroundColor: "#000080",
     flex: 0.18,
     width: "100%",

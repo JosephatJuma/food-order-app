@@ -1,31 +1,50 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ScrollView, View, Text, StyleSheet, Pressable } from "react-native";
 import { Down } from "./Down";
+
+const api_url = "http://192.168.1.2:10000/api/all/cat";
 export const Category = () => {
-  const [categories, setCategories] = useState([
-    { id: 1, name: "Pizza" },
-    { id: 2, name: "Chicken" },
-    { id: 3, name: "Nyama Choma" },
-    { id: 4, name: "Coffee" },
-    { id: 5, name: "Snacks" },
-    { id: 6, name: "Rolex" },
-    { id: 7, name: "Drinks" },
-  ]);
+  const [Loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    setTimeout(() => {
+      fetch(api_url)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+          setCategories(data);
+          setLoading(false);
+        });
+    }, 1000);
+  }, []);
   return (
-    <ScrollView style={styles.catSection}>
-      <Text></Text>
-      <View style={styles.cats}>
-        {categories &&
-          categories.map((cat) => {
-            return (
+    <ScrollView style={styles.catSection} horizontal={true}>
+      {Loading ? (
+        <Text>Loading</Text>
+      ) : categories ? (
+        categories.map((cat) => {
+          return (
+            <View key={cat.id}>
               <Pressable style={styles.catItem} key={cat.id}>
-                <Text>{cat.name}</Text>
+                <Text style={styles.catName}>{cat.Name}</Text>
               </Pressable>
-            );
-          })}
-      </View>
+              <View style={styles.itemDetails}>
+                <Text>{cat.Name} (1)</Text>
+                <Text>{cat.Name} (2)</Text>
+                <Text>{cat.Name} (3)</Text>
+                <Text>{cat.Name} (4)</Text>
+                <Text>{cat.Name} (5)</Text>
+              </View>
+            </View>
+          );
+        })
+      ) : (
+        <Text>No data found</Text>
+      )}
+
       <Text></Text>
-      <Down />
     </ScrollView>
   );
 };
@@ -35,19 +54,28 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "white",
   },
-  cats: {
-    width: "95%",
-    backgroundColor: "#000080",
-    alignSelf: "center",
-    maxHeight: 1000,
-    borderRadius: 20,
-  },
   catItem: {
-    backgroundColor: "grey",
-    margin: 20,
+    backgroundColor: "green",
+    margin: 5,
     marginTop: 4,
-    width: "85%",
-    height: 50,
+    width: 400,
+    height: 100,
+    borderRadius: 10,
+    alignContent: "center",
+    alignItems: "center",
+  },
+  catName: {
+    alignSelf: "center",
+    color: "white",
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  itemDetails: {
+    backgroundColor: "#800020",
+    margin: 5,
+    marginTop: 4,
+    width: 400,
+    height: "100%",
     borderRadius: 10,
     alignContent: "center",
     alignItems: "center",

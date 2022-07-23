@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Down } from "./Down";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   ScrollView,
   View,
@@ -23,6 +24,7 @@ export const Main = ({ items, add, remove }) => {
                 <Text style={styles.itemName}>UGX: {item.price}</Text>
                 <View style={styles.bottom}>
                   <Pressable style={styles.button} onPress={add}>
+                    <Ionicons name="cart" size={20} color="white" />
                     <Text style={(styles.text, styles.buttonText)}>
                       Add to cart
                     </Text>
@@ -76,17 +78,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   button: {
-    backgroundColor: "pink",
+    backgroundColor: "green",
     alignItems: "center",
     justifyContent: "center",
     height: 42,
     borderRadius: 10,
     margin: 10,
+    display: "flex",
+    flexDirection: "row",
 
     width: 120,
   },
   buttonText: {
-    color: "black",
+    color: "white",
   },
   text: {
     fontSize: 20,

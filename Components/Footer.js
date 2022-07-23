@@ -11,44 +11,90 @@ export const Footer = ({
   goHome,
   goToAccount,
   goToCat,
-  slected,
+  selectedHome,
+  selectedCart,
+  selectedAcc,
+  selectedCat,
 }) => {
   return (
     <View style={styles.footer}>
       <Pressable style={styles.section} onPress={goHome}>
-        <MaterialCommunityIcons name="home-outline" size={55} color="#000080" />
-        {/* <Ionicons name="md-home" size={50} color="#000080" /> */}
-        <Text style={styles.footerText}>Home</Text>
+        <MaterialCommunityIcons
+          name="home-outline"
+          size={40}
+          color={selectedHome == true ? "green" : "#000080"}
+        />
+
+        <Text
+          style={
+            selectedHome === true ? styles.footerTextSlected : styles.footerText
+          }
+        >
+          Home
+        </Text>
       </Pressable>
       <Pressable style={styles.section} onPress={goToCat}>
-        <AntDesign name="appstore-o" size={50} color="#000080" />
-        <Text style={styles.footerText}>Category</Text>
+        <AntDesign
+          name="appstore-o"
+          size={40}
+          color={selectedCat == true ? "green" : "#000080"}
+        />
+        <Text
+          style={
+            selectedCat === true ? styles.footerTextSlected : styles.footerText
+          }
+        >
+          Category
+        </Text>
       </Pressable>
+
       <Pressable style={styles.section} onPress={goToCart}>
         <View>
-          {number > 0 ? (
-            <Text style={styles.itemsOnCart}>{number}</Text>
-          ) : (
-            <Text>Empty</Text>
-          )}
+          <Text
+            style={
+              selectedCart === true ? { color: "green" } : { color: "#000080" }
+            }
+          >
+            {number > 0 ? number : "Empty"}
+          </Text>
         </View>
 
-        <MaterialCommunityIcons name="cart-variant" size={50} color="#000080" />
-        <Text style={styles.footerText}>Cart</Text>
+        <MaterialCommunityIcons
+          name="cart-variant"
+          size={40}
+          color={selectedCart == true ? "green" : "#000080"}
+        />
+        <Text
+          style={
+            selectedCart === true ? styles.footerTextSlected : styles.footerText
+          }
+        >
+          Cart
+        </Text>
       </Pressable>
       <Pressable style={styles.section} onPress={goToAccount}>
         {/* <Ionicons name="md-person" size={50} color="#000080" /> */}
-        <FontAwesome5 name="user-circle" size={50} color="#000080" />
-        <Text style={styles.footerText}>Account</Text>
+        <FontAwesome5
+          name="user-circle"
+          size={40}
+          color={selectedAcc == true ? "green" : "#000080"}
+        />
+        <Text
+          style={
+            selectedAcc === true ? styles.footerTextSlected : styles.footerText
+          }
+        >
+          Account
+        </Text>
       </Pressable>
     </View>
   );
 };
 const styles = StyleSheet.create({
   footer: {
-    // backgroundColor: "#F5F5DC",
-    backgroundColor: "orange",
-    flex: 0.2,
+    backgroundColor: "lightgreen",
+    //backgroundColor: "orange",
+    flex: 0.15,
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
@@ -57,7 +103,13 @@ const styles = StyleSheet.create({
   },
   footerText: {
     color: "#000080",
-    fontSize: 15,
+    fontSize: 14,
+    //fontWeight: "bold",
+  },
+  footerTextSlected: {
+    color: "green",
+    fontSize: 14,
+    fontWeight: "bold",
   },
   section: {
     padding: 10,
@@ -70,27 +122,10 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     width: "20%",
     height: 100,
-  },
-  select: {
-    padding: 10,
-    margin: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#171717",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.4,
-    shadowRadius: 2,
-    width: "20%",
-    height: 100,
-    backgroundColor: "green",
+    borderRadius: 120,
   },
   image: {
     width: 50,
     height: 50,
-  },
-  itemsOnCart: {
-    color: "#000080",
-    fontSize: 18,
-    fontWeight: "bold",
   },
 });

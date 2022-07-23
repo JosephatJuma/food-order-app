@@ -36,40 +36,32 @@ export const Cart = ({ items, clear, goToHome }) => {
           </>
         ) : (
           <>
-            <Text style={styles.oopsMsg}>
+            <Text style={styles.successMsg}>
               You have ({items}) item{items > 1 && "s"} on the cart, the list
               will be here!
             </Text>
             <View style={styles.status}>
               <View style={styles.line}>
-                <Ionicons name="md-cart" size={32} color="#000080" />
-                <Text style={styles.oopsMsg}>Shopped</Text>
+                <Ionicons name="md-cart" size={32} color="green" />
+                <Text style={styles.successMsg}>Shopped</Text>
               </View>
 
-              <Entypo name="flow-line" size={40} color="#000080" />
+              <Entypo name="flow-line" size={40} color="green" />
               <View style={styles.line}>
-                <Ionicons
-                  name="md-checkmark-circle"
-                  size={32}
-                  color="#000080"
-                />
-                <Text style={styles.oopsMsg}>Verified</Text>
+                <Ionicons name="md-checkmark-circle" size={32} color="green" />
+                <Text style={styles.successMsg}>Verified</Text>
               </View>
 
-              <Entypo name="flow-line" size={40} color="#000080" />
+              <Entypo name="flow-line" size={40} color="green" />
               <View style={styles.line}>
-                <Entypo name="credit-card" size={32} color="#000080" />
-                <Text style={styles.oopsMsg}>Paid</Text>
+                <Entypo name="credit-card" size={32} color="green" />
+                <Text style={styles.successMsg}>Paid</Text>
               </View>
 
-              <Entypo name="flow-line" size={40} color="#000080" />
+              <Entypo name="flow-line" size={40} color="green" />
               <View style={styles.line}>
-                <MaterialIcons
-                  name="delivery-dining"
-                  size={32}
-                  color="#000080"
-                />
-                <Text style={styles.oopsMsg}>Delivered</Text>
+                <MaterialIcons name="delivery-dining" size={32} color="green" />
+                <Text style={styles.successMsg}>Delivered</Text>
               </View>
             </View>
           </>
@@ -116,7 +108,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   deleteText: {
-    fontSize: 25,
+    fontSize: 20,
     color: "skyblue",
     fontWeight: "bold",
   },
@@ -132,7 +124,7 @@ const styles = StyleSheet.create({
   },
   emptyMsg: {
     color: "white",
-    fontSize: 25,
+    fontSize: 20,
   },
   oopsImage: {
     width: 100,
@@ -140,10 +132,15 @@ const styles = StyleSheet.create({
   },
   oopsMsg: {
     color: "#000080",
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: "bold",
     marginLeft: 10,
-    fontFamily: "notoserif",
+  },
+  successMsg: {
+    color: "green",
+    fontSize: 15,
+    fontWeight: "bold",
+    marginLeft: 10,
   },
   status: {
     alignSelf: "flex-start",

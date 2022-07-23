@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, SafeAreaView } from "react-native";
 import { Header } from "./Components/Header";
 import { Main } from "./Components/Main";
 import { Cart } from "./Components/Cart";
@@ -8,8 +8,10 @@ import { Category } from "./Components/Category";
 import { Footer } from "./Components/Footer";
 import { useState } from "react";
 import { Alert } from "react-native";
+//import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function App() {
+  //const insets = useSafeAreaInsets();
   const [items, setItems] = useState([
     {
       id: 1,
@@ -60,6 +62,7 @@ export default function App() {
       price: 20000,
     },
   ]);
+  const [loggedin, setLoggedin] = useState(false);
   const [cart, setCart] = useState(0);
   const [home, setHome] = useState(true);
   const [category, setCategory] = useState(false);
@@ -119,12 +122,12 @@ export default function App() {
     );
   };
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={[styles.container, { paddingTop: 40 }]}>
       <Header cart={cart} />
       {home && <Main items={items} add={addToCart} remove={removeFromCart} />}
       {showCart && <Cart items={cart} clear={emptyCart} goToHome={goHome} />}
-      {account && <Account />}
-      {category && <Category />}
+      {account && <Account isloggedin={loggedin} />}
+      {category && <Category hasLoggedIn={setLoggedin} />}
 
       <Footer
         number={cart}
@@ -132,16 +135,20 @@ export default function App() {
         goHome={goHome}
         goToAccount={goToAccount}
         goToCat={goToCategory}
+        selectedHome={home}
+        selectedAcc={account}
+        selectedCart={showCart}
+        selectedCat={category}
       />
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "lightgreen",
     alignItems: "center",
     justifyContent: "center",
   },

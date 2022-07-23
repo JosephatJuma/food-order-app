@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { SignUp } from "./SignUp";
+import { Login } from "./Login";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -11,7 +13,8 @@ import {
   Pressable,
 } from "react-native";
 
-export const Account = () => {
+export const Account = ({ isloggedin, hasLoggedIn }) => {
+  const [change, setChange] = useState(false);
   const [userData, setUserData] = useState({
     id: 100010,
     name: "Juma Josephat",
@@ -25,56 +28,71 @@ export const Account = () => {
       { id: 5, date: "11-03-2022" },
     ],
   });
-  return (
-    <ScrollView style={styles.accountSection}>
-      <Text></Text>
-      <View style={styles.profile}>
-        <View style={styles.profilePic}>
-          <Image
-            source={require("../assets/Images/profiles/pic1.jpg")}
-            style={styles.image}
-          />
-          <MaterialCommunityIcons
-            name="account-edit"
-            size={60}
-            color="#000080"
-            style={{ alignSelf: "center", marginTop: -50 }}
-          />
-        </View>
-        <View>
-          <Text style={styles.name}>{userData.name}</Text>
-          <Text style={styles.email}>{userData.email}</Text>
-          <Text style={styles.id}>Phone: {userData.phone}</Text>
-          <Text style={styles.id}>User ID: {userData.id}</Text>
-          <Pressable style={styles.logout}>
-            <Text style={styles.id}>Logout</Text>
-          </Pressable>
-        </View>
-      </View>
-      <View style={styles.details}>
-        <View style={styles.head}>
-          <MaterialCommunityIcons name="history" size={45} color="white" />
 
-          <Text style={styles.text}>History</Text>
-        </View>
-        {userData.history.length > 0 ? (
-          userData.history.map((order) => {
-            //console.log(order);
-            return (
-              <>
-                <Text style={styles.order} key={order.id}>
-                  {order.date}
-                  <MaterialIcons name="expand-more" size={30} color="white" />
-                </Text>
-              </>
-            );
-          })
-        ) : (
-          <Text style={styles.order}>No Available history to show</Text>
-        )}
-        {/* {<Text style={styles.order}>{userData.history[0].date}</Text>} */}
-      </View>
-    </ScrollView>
+  return (
+    <>
+      {isloggedin === true ? (
+        <ScrollView style={styles.accountSection}>
+          <Text></Text>
+
+          <View style={styles.profile}>
+            <View style={styles.profilePic}>
+              <Image
+                source={require("../assets/Images/profiles/pic1.jpg")}
+                style={styles.image}
+              />
+              <MaterialCommunityIcons
+                name="account-edit"
+                size={60}
+                color="#000080"
+                style={{ alignSelf: "center", marginTop: -50 }}
+              />
+            </View>
+            <View>
+              <Text style={styles.name}>{userData.name}</Text>
+              <Text style={styles.email}>{userData.email}</Text>
+              <Text style={styles.id}>Phone: {userData.phone}</Text>
+              <Text style={styles.id}>User ID: {userData.id}</Text>
+              <Pressable style={styles.logout}>
+                <Text style={styles.id}>Logout</Text>
+              </Pressable>
+            </View>
+          </View>
+          <View style={styles.details}>
+            <View style={styles.head}>
+              <MaterialCommunityIcons name="history" size={45} color="white" />
+
+              <Text style={styles.text}>History</Text>
+            </View>
+            {userData.history.length > 0 ? (
+              userData.history.map((order) => {
+                //console.log(order);
+                return (
+                  <Text style={styles.order} key={order.id}>
+                    {order.date}
+                    <MaterialIcons name="expand-more" size={30} color="white" />
+                  </Text>
+                );
+              })
+            ) : (
+              <Text style={styles.order}>No Available history to show</Text>
+            )}
+            {/* {<Text style={styles.order}>{userData.history[0].date}</Text>} */}
+          </View>
+        </ScrollView>
+      ) : (
+        <ScrollView style={styles.accountSection}>
+          {change === true ? (
+            <SignUp changer={() => setChange(!change)} />
+          ) : (
+            <Login
+              changer={() => setChange(!change)}
+              setNowLoggedIn={hasLoggedIn}
+            />
+          )}
+        </ScrollView>
+      )}
+    </>
   );
 };
 const styles = StyleSheet.create({
@@ -126,7 +144,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   logout: {
-    backgroundColor: "#000080",
+    backgroundColor: "green",
     width: 160,
     height: 30,
     alignSelf: "center",
@@ -134,7 +152,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   details: {
-    backgroundColor: "#000081",
+    backgroundColor: "green",
     width: "95%",
     alignContent: "center",
     alignItems: "center",

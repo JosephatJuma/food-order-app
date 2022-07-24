@@ -92,7 +92,7 @@ export const Footer = ({
 };
 const styles = StyleSheet.create({
   footer: {
-    backgroundColor: "lightgreen",
+    backgroundColor: "#F5F5D6",
     //backgroundColor: "orange",
     flex: 0.15,
     width: "100%",

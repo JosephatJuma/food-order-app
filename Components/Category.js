@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-import { ScrollView, View, Text, StyleSheet, Pressable } from "react-native";
+import {
+  ScrollView,
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Image,
+} from "react-native";
 import { Down } from "./Down";
 
 const api_url = "http://192.168.1.2:10000/api/all/cat";
@@ -22,7 +29,17 @@ export const Category = () => {
   return (
     <ScrollView style={styles.catSection} horizontal={true}>
       {Loading ? (
-        <Text>Loading</Text>
+        <>
+          <Image
+            source={require("../assets/Images/loader.gif")}
+            style={{
+              width: 200,
+              height: 150,
+              alignSelf: "center",
+              marginLeft: 100,
+            }}
+          />
+        </>
       ) : categories ? (
         categories.map((cat) => {
           return (

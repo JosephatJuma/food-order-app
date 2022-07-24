@@ -121,13 +121,34 @@ export default function App() {
       { cancelable: true }
     );
   };
+  const logout = () => {
+    Alert.alert(
+      "Are you sure you want to logout?",
+      "You will need to login again!",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Logout Cancelled"),
+          style: "cancel",
+        },
+        { text: "YES", onPress: () => setLoggedin(false) },
+      ],
+      { cancelable: true }
+    );
+  };
   return (
-    <SafeAreaView style={[styles.container, { paddingTop: 40 }]}>
+    <SafeAreaView style={[styles.container, { paddingTop: 30 }]}>
       <Header cart={cart} />
       {home && <Main items={items} add={addToCart} remove={removeFromCart} />}
       {showCart && <Cart items={cart} clear={emptyCart} goToHome={goHome} />}
-      {account && <Account isloggedin={loggedin} />}
-      {category && <Category hasLoggedIn={setLoggedin} />}
+      {account && (
+        <Account
+          isloggedin={loggedin}
+          setIsLoggedIn={setLoggedin}
+          logout={logout}
+        />
+      )}
+      {category && <Category />}
 
       <Footer
         number={cart}
@@ -148,7 +169,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "lightgreen",
+    //backgroundblueColor: "",
+    //backgroundColor: "#F5F5D6",
     alignItems: "center",
     justifyContent: "center",
   },

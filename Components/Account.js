@@ -13,7 +13,7 @@ import {
   Pressable,
 } from "react-native";
 
-export const Account = ({ isloggedin, hasLoggedIn }) => {
+export const Account = ({ isloggedin, setIsLoggedIn, logout }) => {
   const [change, setChange] = useState(false);
   const [userData, setUserData] = useState({
     id: 100010,
@@ -44,16 +44,19 @@ export const Account = ({ isloggedin, hasLoggedIn }) => {
               <MaterialCommunityIcons
                 name="account-edit"
                 size={60}
-                color="#000080"
+                color="green"
                 style={{ alignSelf: "center", marginTop: -50 }}
               />
+              <Text style={{ color: "white", marginLeft: 30, marginTop: -10 }}>
+                Edit Profile
+              </Text>
             </View>
             <View>
               <Text style={styles.name}>{userData.name}</Text>
               <Text style={styles.email}>{userData.email}</Text>
               <Text style={styles.id}>Phone: {userData.phone}</Text>
               <Text style={styles.id}>User ID: {userData.id}</Text>
-              <Pressable style={styles.logout}>
+              <Pressable style={styles.logout} onPress={logout}>
                 <Text style={styles.id}>Logout</Text>
               </Pressable>
             </View>
@@ -87,7 +90,7 @@ export const Account = ({ isloggedin, hasLoggedIn }) => {
           ) : (
             <Login
               changer={() => setChange(!change)}
-              setNowLoggedIn={hasLoggedIn}
+              setNowLoggedIn={setIsLoggedIn}
             />
           )}
         </ScrollView>

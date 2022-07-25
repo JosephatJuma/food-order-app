@@ -15,19 +15,14 @@ import {
 
 export const Account = ({ isloggedin, setIsLoggedIn, logout }) => {
   const [change, setChange] = useState(false);
-  const [userData, setUserData] = useState({
-    id: 100010,
-    name: "Juma Josephat",
-    email: "jumajosephat61@gmail.com",
-    phone: "+256 702 206 985",
-    history: [
-      { id: 1, date: "14-05-2022" },
-      { id: 2, date: "22-04-2022" },
-      { id: 3, date: "01-04-2022" },
-      { id: 4, date: "30-03-2022" },
-      { id: 5, date: "11-03-2022" },
-    ],
-  });
+  const [userData, setUserData] = useState({});
+  const [history, setHistory] = useState([
+    { id: 1, date: "14-05-2022" },
+    { id: 2, date: "22-04-2022" },
+    { id: 3, date: "01-04-2022" },
+    { id: 4, date: "30-03-2022" },
+    { id: 5, date: "11-03-2022" },
+  ]);
 
   return (
     <>
@@ -67,8 +62,8 @@ export const Account = ({ isloggedin, setIsLoggedIn, logout }) => {
 
               <Text style={styles.text}>History</Text>
             </View>
-            {userData.history.length > 0 ? (
-              userData.history.map((order) => {
+            {history.length > 0 ? (
+              history.map((order) => {
                 //console.log(order);
                 return (
                   <Text style={styles.order} key={order.id}>
@@ -91,6 +86,7 @@ export const Account = ({ isloggedin, setIsLoggedIn, logout }) => {
             <Login
               changer={() => setChange(!change)}
               setNowLoggedIn={setIsLoggedIn}
+              setUserDate={setUserData}
             />
           )}
         </ScrollView>

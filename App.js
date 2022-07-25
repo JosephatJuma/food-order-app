@@ -68,6 +68,7 @@ export default function App() {
   const [category, setCategory] = useState(false);
   const [showCart, setShowCart] = useState(false);
   const [account, setAccount] = useState(false);
+  const [userData, setUserData] = useState({});
   const goToCart = () => {
     setShowCart(true);
     setHome(false);
@@ -146,6 +147,7 @@ export default function App() {
           isloggedin={loggedin}
           setIsLoggedIn={setLoggedin}
           logout={logout}
+          userData={userData}
         />
       )}
       {category && <Category />}

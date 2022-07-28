@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 //import DropShadow from "react-native-drop-shadow";
-import Ionicons from "@expo/vector-icons/Ionicons";
+
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
@@ -21,7 +21,7 @@ export const Footer = ({
       <Pressable style={styles.section} onPress={goHome}>
         <MaterialCommunityIcons
           name="home-outline"
-          size={40}
+          size={35}
           color={selectedHome == true ? "green" : "#000080"}
         />
 
@@ -36,7 +36,7 @@ export const Footer = ({
       <Pressable style={styles.section} onPress={goToCat}>
         <AntDesign
           name="appstore-o"
-          size={40}
+          size={35}
           color={selectedCat == true ? "green" : "#000080"}
         />
         <Text
@@ -61,7 +61,7 @@ export const Footer = ({
 
         <MaterialCommunityIcons
           name="cart-variant"
-          size={40}
+          size={35}
           color={selectedCart == true ? "green" : "#000080"}
         />
         <Text
@@ -76,7 +76,7 @@ export const Footer = ({
         {/* <Ionicons name="md-person" size={50} color="#000080" /> */}
         <FontAwesome5
           name="user-circle"
-          size={40}
+          size={35}
           color={selectedAcc == true ? "green" : "#000080"}
         />
         <Text

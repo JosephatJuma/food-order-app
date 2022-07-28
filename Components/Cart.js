@@ -4,6 +4,7 @@ import {
   Text,
   StyleSheet,
   Pressable,
+  TouchableOpacity,
   Image,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
@@ -16,16 +17,16 @@ export const Cart = ({ items, clear, goToHome }) => {
   return (
     <ScrollView style={styles.cartSection}>
       {items > 0 ? (
-        <Pressable style={styles.clear} onPress={clear}>
+        <TouchableOpacity style={styles.clear} onPress={clear}>
           <View style={styles.deletebtn}>
             <Ionicons name="md-trash" size={32} color="skyblue" />
             <Text style={styles.deleteText}>Empty the cart</Text>
           </View>
-        </Pressable>
+        </TouchableOpacity>
       ) : (
-        <Pressable style={styles.emptyCart} onPress={goToHome}>
+        <TouchableOpacity style={styles.emptyCart} onPress={goToHome}>
           <Text style={styles.emptyMsg}>Start Shopping!</Text>
-        </Pressable>
+        </TouchableOpacity>
       )}
       <View style={styles.itemsArea}>
         {items <= 0 ? (

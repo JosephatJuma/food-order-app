@@ -6,7 +6,7 @@ import { Cart } from "./Components/Cart";
 import { Account } from "./Components/Account";
 import { Category } from "./Components/Category";
 import { Footer } from "./Components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Alert } from "react-native";
 //import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -62,6 +62,7 @@ export default function App() {
       price: 20000,
     },
   ]);
+
   const [loggedin, setLoggedin] = useState(false);
   const [cart, setCart] = useState(0);
   const [home, setHome] = useState(true);
@@ -69,6 +70,24 @@ export default function App() {
   const [showCart, setShowCart] = useState(false);
   const [account, setAccount] = useState(false);
   const [userData, setUserData] = useState({});
+  const [Loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState([]);
+
+  const api_url = "http://192.168.1.2:10000/api/all/cat";
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetch(api_url)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+          setCategories(data);
+          setLoading(false);
+        });
+    }, 1000);
+  }, []);
   const goToCart = () => {
     setShowCart(true);
     setHome(false);
@@ -147,10 +166,11 @@ export default function App() {
           isloggedin={loggedin}
           setIsLoggedIn={setLoggedin}
           logout={logout}
+          user={setUserData}
           userData={userData}
         />
       )}
-      {category && <Category />}
+      {category && <Category categories={categories} Loading={Loading} />}
 
       <Footer
         number={cart}
@@ -171,8 +191,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //backgroundblueColor: "",
-    //backgroundColor: "#F5F5D6",
+    //backgroundColor: "tomato",
+    backgroundColor: "#F5F5D6",
     alignItems: "center",
     justifyContent: "center",
   },

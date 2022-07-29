@@ -9,156 +9,122 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native";
 import { Down } from "./Down";
 
-export const Category = ({ categories, Loading }) => {
+export const Category = ({ categories, Loading, typing, products }) => {
   return (
-    <ScrollView style={styles.cat}>
-      <ScrollView style={styles.catSection} horizontal={true}>
-        {Loading ? (
-          <Image
-            source={require("../assets/Images/loader.gif")}
-            style={styles.image}
-          />
-        ) : categories ? (
-          categories.map((cat) => {
-            return (
-              <View key={cat.id}>
-                <TouchableOpacity style={styles.catItem} key={cat.id}>
-                  <View style={styles.catTop}>
-                    <Text style={styles.catName}>{cat.Name}</Text>
-                  </View>
-                  <View style={styles.hr}>
-                    <Text></Text>
-                  </View>
-                  <Image
-                    source={{ uri: cat.Image }}
-                    style={{
-                      width: "132%",
-                      height: 182,
-                      borderBottomLeftRadius: 10,
-                      borderBottomRightRadius: 10,
-                    }}
-                  />
-                </TouchableOpacity>
-              </View>
-            );
-          })
-        ) : (
-          <Text>No data found</Text>
-        )}
-
-        <Text style={styles.itemText}>Item </Text>
-      </ScrollView>
-
-      <ScrollView>
-        <View style={styles.itemDetails}>
-          <View style={styles.search}>
-            <TextInput style={styles.input} placeholder="Search item" />
-            <View style={styles.searchIcon}>
-              <Ionicons name="search" size={30} color="white" />
-            </View>
-          </View>
-          <View style={styles.items}>
-            <View style={styles.item}>
-              <Text style={styles.itemText}>Item </Text>
-              <Pressable style={styles.btn}>
-                <Ionicons name="cart" size={14} color="white" />
-                <Text style={{ color: "white" }}>order</Text>
-              </Pressable>
-            </View>
-            <View style={styles.item}>
-              <Text style={styles.itemText}>Item </Text>
-              <Pressable style={styles.btn}>
-                <Ionicons name="cart" size={14} color="white" />
-                <Text style={{ color: "white" }}>order</Text>
-              </Pressable>
-            </View>
-          </View>
-          <View style={styles.items}>
-            <View style={styles.item}>
-              <Text style={styles.itemText}>Item </Text>
-              <Pressable style={styles.btn}>
-                <Ionicons name="cart" size={14} color="white" />
-                <Text style={{ color: "white" }}>order</Text>
-              </Pressable>
-            </View>
-            <View style={styles.item}>
-              <Text style={styles.itemText}>Item </Text>
-              <Pressable style={styles.btn}>
-                <Ionicons name="cart" size={14} color="white" />
-                <Text style={{ color: "white" }}>order</Text>
-              </Pressable>
-            </View>
-          </View>
-          <View style={styles.items}>
-            <View style={styles.item}>
-              <Text style={styles.itemText}>Item </Text>
-              <Pressable style={styles.btn}>
-                <Ionicons name="cart" size={14} color="white" />
-                <Text style={{ color: "white" }}>order</Text>
-              </Pressable>
-            </View>
-            <View style={styles.item}>
-              <Text style={styles.itemText}>Item </Text>
-              <Pressable style={styles.btn}>
-                <Ionicons name="cart" size={14} color="white" />
-                <Text style={{ color: "white" }}>order</Text>
-              </Pressable>
-            </View>
-          </View>
-          <View style={styles.items}>
-            <View style={styles.item}>
-              <Text style={styles.itemText}>Item </Text>
-              <Pressable style={styles.btn}>
-                <Ionicons name="cart" size={14} color="white" />
-                <Text style={{ color: "white" }}>order</Text>
-              </Pressable>
-            </View>
-            <View style={styles.item}>
-              <Text style={styles.itemText}>Item </Text>
-              <Pressable style={styles.btn}>
-                <Ionicons name="cart" size={14} color="white" />
-                <Text style={{ color: "white" }}>order</Text>
-              </Pressable>
-            </View>
-          </View>
-          <View style={styles.items}>
-            <View style={styles.item}>
-              <Text style={styles.itemText}>Item </Text>
-              <Pressable style={styles.btn}>
-                <Ionicons name="cart" size={14} color="white" />
-                <Text style={{ color: "white" }}>order</Text>
-              </Pressable>
-            </View>
-            <View style={styles.item}>
-              <Text style={styles.itemText}>Item </Text>
-              <Pressable style={styles.btn}>
-                <Ionicons name="cart" size={14} color="white" />
-                <Text style={{ color: "white" }}>order</Text>
-              </Pressable>
-            </View>
-          </View>
-          <View style={styles.items}>
-            <View style={styles.item}>
-              <Text style={styles.itemText}>Item </Text>
-              <Pressable style={styles.btn}>
-                <Ionicons name="cart" size={14} color="white" />
-                <Text style={{ color: "white" }}>order</Text>
-              </Pressable>
-            </View>
-            <View style={styles.item}>
-              <Text style={styles.itemText}>Item </Text>
-              <Pressable style={styles.btn}>
-                <Ionicons name="cart" size={14} color="white" />
-                <Text style={{ color: "white" }}>order</Text>
-              </Pressable>
-            </View>
-          </View>
+    <>
+      <View style={styles.search}>
+        <TextInput
+          style={styles.input}
+          placeholder="Search item"
+          onPressOut={() => typing(true)}
+          onPressIn={() => typing(true)}
+          onTextInput={() => typing(true)}
+          onEndEditing={() => typing(false)}
+        />
+        <View style={styles.searchIcon}>
+          <Ionicons name="search" size={30} color="white" />
         </View>
+      </View>
+      <ScrollView style={styles.cat}>
+        <Text>Category</Text>
+        <ScrollView style={styles.catSection} horizontal={true}>
+          {Loading ? (
+            <Image
+              source={require("../assets/Images/loader.gif")}
+              style={styles.image}
+            />
+          ) : categories ? (
+            categories.map((cat) => {
+              return (
+                <View key={cat.id}>
+                  <TouchableOpacity style={styles.catItem} key={cat.id}>
+                    <View style={styles.catTop}>
+                      <Text style={styles.catName}>{cat.Name}</Text>
+                    </View>
+                    <View style={styles.hr}>
+                      <Text></Text>
+                    </View>
+                    <Image
+                      source={{ uri: cat.Image }}
+                      style={{
+                        width: "132%",
+                        height: 182,
+                        borderBottomLeftRadius: 10,
+                        borderBottomRightRadius: 10,
+                      }}
+                    />
+                  </TouchableOpacity>
+                </View>
+              );
+            })
+          ) : (
+            <Text>No data found</Text>
+          )}
+
+          <Text style={styles.itemText}>Item </Text>
+        </ScrollView>
+
+        <ScrollView>
+          <View style={styles.itemDetails}>
+            {
+              //products
+              products ? (
+                products.map((product) => {
+                  return (
+                    <View style={styles.items} key={product.id}>
+                      <View style={styles.item}>
+                        {product.image && (
+                          <Image
+                            source={{ uri: product.image }}
+                            style={styles.productImage}
+                          />
+                        )}
+                        <Text style={styles.itemText}> {product.name} </Text>
+                        <Text style={styles.itemText}>
+                          UGX {product.price}{" "}
+                        </Text>
+                        <Text style={styles.itemText}>
+                          Category: {product.Category}
+                        </Text>
+                        <Pressable style={styles.btn}>
+                          <Ionicons name="cart" size={14} color="white" />
+                          <Text style={{ color: "white" }}>order</Text>
+                        </Pressable>
+                      </View>
+                      <View style={styles.item}>
+                        <Image
+                          source={{ uri: product.image }}
+                          style={styles.productImage}
+                        />
+                        <Text style={styles.itemText}> {product.name} </Text>
+                        <Text style={styles.itemText}>
+                          UGX {product.price}{" "}
+                        </Text>
+                        <Text style={styles.itemText}>
+                          Category: {product.Category}
+                        </Text>
+                        <Pressable style={styles.btn}>
+                          <Ionicons name="cart" size={14} color="white" />
+                          <Text style={{ color: "white" }}>order</Text>
+                        </Pressable>
+                      </View>
+                    </View>
+                  );
+                })
+              ) : (
+                <View>
+                  <Text>No products Available</Text>
+                </View>
+              )
+            }
+          </View>
+        </ScrollView>
       </ScrollView>
-    </ScrollView>
+    </>
   );
 };
 const styles = StyleSheet.create({
@@ -223,7 +189,7 @@ const styles = StyleSheet.create({
   },
   items: {
     width: "105%",
-    height: 250,
+    height: 300,
     display: "flex",
     flexDirection: "row",
   },
@@ -236,9 +202,15 @@ const styles = StyleSheet.create({
     alignContent: "center",
     alignItems: "center",
   },
+
   itemText: {
     color: "white",
-    fontSize: 25,
+    fontSize: 15,
+  },
+  productImage: {
+    width: "100%",
+    height: 150,
+    borderRadius: 20,
   },
   btn: {
     backgroundColor: "green",
@@ -252,7 +224,7 @@ const styles = StyleSheet.create({
     padding: 3,
   },
   search: {
-    width: "90%",
+    width: "80%",
     alignSelf: "center",
     height: 45,
     borderRadius: 10,
@@ -262,6 +234,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     //position: "absolute",
     borderColor: "green",
+    marginTop: 20,
+    marginBottom: 10,
+    backgroundColor: "white",
   },
   searchIcon: {
     backgroundColor: "green",

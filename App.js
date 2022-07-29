@@ -62,7 +62,7 @@ export default function App() {
       price: 20000,
     },
   ]);
-
+  const [typing, setTyping] = useState(false);
   const [loggedin, setLoggedin] = useState(false);
   const [cart, setCart] = useState(0);
   const [home, setHome] = useState(true);
@@ -72,8 +72,10 @@ export default function App() {
   const [userData, setUserData] = useState({});
   const [Loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
 
   const api_url = "http://192.168.1.2:10000/api/all/cat";
+  const productsapi_url = "http://192.168.1.2:10000/api/products";
 
   useEffect(() => {
     setTimeout(() => {
@@ -86,7 +88,21 @@ export default function App() {
           setCategories(data);
           setLoading(false);
         });
-    }, 1000);
+    }, 2000);
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetch(productsapi_url)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+          setProducts(data);
+          setLoading(false);
+        });
+    }, 2000);
   }, []);
   const goToCart = () => {
     setShowCart(true);
@@ -170,19 +186,28 @@ export default function App() {
           userData={userData}
         />
       )}
-      {category && <Category categories={categories} Loading={Loading} />}
+      {category && (
+        <Category
+          categories={categories}
+          Loading={Loading}
+          typing={setTyping}
+          products={products}
+        />
+      )}
 
-      <Footer
-        number={cart}
-        goToCart={goToCart}
-        goHome={goHome}
-        goToAccount={goToAccount}
-        goToCat={goToCategory}
-        selectedHome={home}
-        selectedAcc={account}
-        selectedCart={showCart}
-        selectedCat={category}
-      />
+      {!typing && (
+        <Footer
+          number={cart}
+          goToCart={goToCart}
+          goHome={goHome}
+          goToAccount={goToAccount}
+          goToCat={goToCategory}
+          selectedHome={home}
+          selectedAcc={account}
+          selectedCart={showCart}
+          selectedCat={category}
+        />
+      )}
       <StatusBar style="auto" />
     </SafeAreaView>
   );
@@ -192,7 +217,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     //backgroundColor: "tomato",
-    backgroundColor: "#F5F5D6",
+    //backgroundColor: "#F5F5D6",
+    backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
   },

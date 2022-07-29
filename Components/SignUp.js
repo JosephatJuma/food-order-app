@@ -14,7 +14,7 @@ import Axios from "axios";
 import { Alert } from "react-native";
 
 const apiURL = "http://192.168.1.2:10000/api/register/";
-export const SignUp = ({ changer, setNowLogin, change }) => {
+export const SignUp = ({ changer, setNowLogin, change, typing }) => {
   const [isCont, setIsCont] = useState(false);
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
@@ -173,7 +173,9 @@ export const SignUp = ({ changer, setNowLogin, change }) => {
               onValueChange={toggleSwitch}
               value={isEnabled}
             />
-            <Text style={styles.inputText}>Show password</Text>
+            <Text style={styles.inputText}>
+              {isEnabled ? "Hide password" : "Show password"}
+            </Text>
           </View>
           <TouchableOpacity style={styles.button} onPress={register}>
             <Text style={styles.text}>Sign Up</Text>

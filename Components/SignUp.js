@@ -71,6 +71,7 @@ export const SignUp = ({ changer, setNowLogin, change, typing }) => {
   };
   const goBack = () => {
     setIsCont(false);
+    setIsEnabled(false);
   };
   return (
     <View style={styles.form}>
@@ -112,7 +113,7 @@ export const SignUp = ({ changer, setNowLogin, change, typing }) => {
           </TouchableOpacity>
           <Pressable onPress={changer}>
             <Text
-              style={{ color: "#000080", fontSize: 20, fontWeight: "bold" }}
+              style={{ color: "#075E54", fontSize: 20, fontWeight: "bold" }}
             >
               Login in instead
             </Text>
@@ -124,7 +125,7 @@ export const SignUp = ({ changer, setNowLogin, change, typing }) => {
             <Ionicons
               name="md-arrow-back-circle-sharp"
               size={40}
-              color="#000080"
+              color="#075E54"
               onPress={goBack}
             />
 
@@ -168,7 +169,7 @@ export const SignUp = ({ changer, setNowLogin, change, typing }) => {
           <View style={styles.switchArea}>
             <Switch
               trackColor={{ false: "#767577", true: "#81b0ff" }}
-              thumbColor={isEnabled ? "#000080" : "#f4f3f4"}
+              thumbColor={isEnabled ? "#075E54" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={toggleSwitch}
               value={isEnabled}
@@ -199,7 +200,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   topText: {
-    color: "#000080",
+    color: "#075E54",
     fontSize: 40,
     fontWeight: "bold",
     margin: 10,
@@ -208,13 +209,13 @@ const styles = StyleSheet.create({
     width: "85%",
     height: 58,
     backgroundColor: "white",
-    color: "green",
+    color: "orange",
     fontSize: 20,
     borderRadius: 10,
     padding: 10,
     fontWeight: "bold",
     borderWidth: 1,
-    borderColor: "#000080",
+    borderColor: "#075E54",
   },
   inputText: {
     fontSize: 20,
@@ -222,22 +223,23 @@ const styles = StyleSheet.create({
     margin: "10%",
     marginTop: 10,
     marginBottom: 10,
-    color: "#000080",
+    color: "#075E54",
     fontWeight: "bold",
   },
   button: {
     width: "70%",
-    backgroundColor: "#000080",
+    backgroundColor: "orange",
     height: 60,
     margin: 20,
     borderRadius: 100,
   },
   text: {
     color: "white",
-    fontSize: 20,
+    fontSize: 25,
     margin: 10,
     alignSelf: "center",
     fontWeight: "bold",
+    textTransform: "uppercase",
   },
   top: {
     display: "flex",
@@ -265,7 +267,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
     alignItems: "center",
   },
-  msg: { color: "green", fontSize: 18, fontWeight: "bold", letterSpacing: -1 },
+  msg: { color: "orange", fontSize: 18, fontWeight: "bold", letterSpacing: -1 },
   errMsg: {
     color: "red",
     fontSize: 18,

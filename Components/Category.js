@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { FontAwesome } from "@expo/vector-icons";
 import {
   ScrollView,
   View,
@@ -13,7 +14,17 @@ import {
 } from "react-native";
 import { Down } from "./Down";
 
-export const Category = ({ categories, Loading, typing, products }) => {
+export const Category = ({
+  categories,
+  Loading,
+  typing,
+  products,
+  addtoCart,
+  addToItems,
+  itemadded,
+  added,
+  cancel,
+}) => {
   return (
     <>
       <View style={styles.search}>
@@ -29,8 +40,20 @@ export const Category = ({ categories, Loading, typing, products }) => {
           <Ionicons name="search" size={30} color="white" />
         </View>
       </View>
+      {added && (
+        <View style={styles.added}>
+          <Text style={{ color: "orange", fontSize: 18 }}>
+            {itemadded} added to cart
+          </Text>
+          <FontAwesome
+            name="times-circle"
+            size={24}
+            color="orange"
+            onPress={cancel}
+          />
+        </View>
+      )}
       <ScrollView style={styles.cat}>
-        <Text>Category</Text>
         <ScrollView style={styles.catSection} horizontal={true}>
           {Loading ? (
             <Image
@@ -41,7 +64,7 @@ export const Category = ({ categories, Loading, typing, products }) => {
             categories.map((cat) => {
               return (
                 <View key={cat.id}>
-                  <TouchableOpacity style={styles.catItem} key={cat.id}>
+                  <Pressable style={styles.catItem} key={cat.id}>
                     <View style={styles.catTop}>
                       <Text style={styles.catName}>{cat.Name}</Text>
                     </View>
@@ -57,7 +80,7 @@ export const Category = ({ categories, Loading, typing, products }) => {
                         borderBottomRightRadius: 10,
                       }}
                     />
-                  </TouchableOpacity>
+                  </Pressable>
                 </View>
               );
             })
@@ -90,10 +113,17 @@ export const Category = ({ categories, Loading, typing, products }) => {
                         <Text style={styles.itemText}>
                           Category: {product.Category}
                         </Text>
-                        <Pressable style={styles.btn}>
+                        <TouchableOpacity
+                          style={styles.btn}
+                          onPress={() =>
+                            addToItems(product.name, product.price)
+                          }
+                        >
                           <Ionicons name="cart" size={14} color="white" />
-                          <Text style={{ color: "white" }}>order</Text>
-                        </Pressable>
+                          <Text style={{ color: "white", alignSelf: "center" }}>
+                            add to cart
+                          </Text>
+                        </TouchableOpacity>
                       </View>
                       <View style={styles.item}>
                         <Image
@@ -101,16 +131,19 @@ export const Category = ({ categories, Loading, typing, products }) => {
                           style={styles.productImage}
                         />
                         <Text style={styles.itemText}> {product.name} </Text>
-                        <Text style={styles.itemText}>
-                          UGX {product.price}{" "}
-                        </Text>
+                        <Text style={styles.itemText}>UGX {product.price}</Text>
                         <Text style={styles.itemText}>
                           Category: {product.Category}
                         </Text>
-                        <Pressable style={styles.btn}>
+                        <TouchableOpacity
+                          style={styles.btn}
+                          onPress={() =>
+                            addToItems(product.name, product.price)
+                          }
+                        >
                           <Ionicons name="cart" size={14} color="white" />
-                          <Text style={{ color: "white" }}>order</Text>
-                        </Pressable>
+                          <Text style={{ color: "white" }}>add to cart</Text>
+                        </TouchableOpacity>
                       </View>
                     </View>
                   );
@@ -128,6 +161,18 @@ export const Category = ({ categories, Loading, typing, products }) => {
   );
 };
 const styles = StyleSheet.create({
+  added: {
+    backgroundColor: "black",
+    width: "90%",
+    height: 50,
+    borderRadius: 10,
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 12,
+    margin: 10,
+  },
   cat: {
     flex: 1,
     backgroundColor: "white",
@@ -144,7 +189,7 @@ const styles = StyleSheet.create({
     marginLeft: 160,
   },
   catItem: {
-    backgroundColor: "green",
+    backgroundColor: "orange",
     margin: 1,
     marginTop: 4,
     marginLeft: 2,
@@ -176,7 +221,7 @@ const styles = StyleSheet.create({
   },
   catTop: {
     height: "30%",
-    backgroundColor: "#800014",
+    backgroundColor: "#075E54",
     width: "130%",
     marginTop: -14,
     borderTopEndRadius: 14,
@@ -189,12 +234,12 @@ const styles = StyleSheet.create({
   },
   items: {
     width: "105%",
-    height: 300,
+    height: 280,
     display: "flex",
     flexDirection: "row",
   },
   item: {
-    backgroundColor: "#800014",
+    backgroundColor: "#075E54",
     width: "45%",
     margin: 10,
     borderRadius: 30,
@@ -205,7 +250,7 @@ const styles = StyleSheet.create({
 
   itemText: {
     color: "white",
-    fontSize: 15,
+    fontSize: 14,
   },
   productImage: {
     width: "100%",
@@ -213,8 +258,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   btn: {
-    backgroundColor: "green",
-    width: "40%",
+    backgroundColor: "orange",
+    width: "60%",
     height: 25,
     alignContent: "center",
     alignItems: "center",
@@ -222,6 +267,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderRadius: 5,
     padding: 3,
+    justifyContent: "space-around",
   },
   search: {
     width: "80%",
@@ -233,13 +279,13 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     //position: "absolute",
-    borderColor: "green",
+    borderColor: "orange",
     marginTop: 20,
     marginBottom: 10,
     backgroundColor: "white",
   },
   searchIcon: {
-    backgroundColor: "green",
+    backgroundColor: "orange",
     width: "15%",
     borderBottomEndRadius: 10,
     borderTopRightRadius: 10,

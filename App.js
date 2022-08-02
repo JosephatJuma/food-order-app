@@ -25,42 +25,6 @@ export default function App() {
       imageSrc: require("./assets/Images/items/pizza.png"),
       price: 20000,
     },
-    {
-      id: 3,
-      name: "Chicken Luwombo",
-      imageSrc: require("./assets/Images/items/luwombo.png"),
-      price: 35000,
-    },
-    {
-      id: 4,
-      name: "Chicken Luwombo",
-      imageSrc: require("./assets/Images/items/luwombo.png"),
-      price: 30000,
-    },
-    {
-      id: 5,
-      name: "Fish Masala",
-      imageSrc: require("./assets/Images/items/fish.png"),
-      price: 15000,
-    },
-    {
-      id: 6,
-      name: "Plain Chips",
-      imageSrc: require("./assets/Images/items/chips.png"),
-      price: 20000,
-    },
-    {
-      id: 7,
-      name: "Chicken Lollippops",
-      imageSrc: require("./assets/Images/items/chicken.png"),
-      price: 18000,
-    },
-    {
-      id: 8,
-      name: "Vegatable Pizza",
-      imageSrc: require("./assets/Images/items/pizza.png"),
-      price: 20000,
-    },
   ]);
   const [typing, setTyping] = useState(false);
   const [loggedin, setLoggedin] = useState(false);
@@ -73,6 +37,11 @@ export default function App() {
   const [Loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
+  const [prices, setPrices] = useState([]);
+  const [grandTotal, setGrand] = useState(0);
+  const [itemadded, setItemAdded] = useState("");
+  const [added, setAdded] = useState(false);
 
   const api_url = "http://192.168.1.2:10000/api/all/cat";
   const productsapi_url = "http://192.168.1.2:10000/api/products";
@@ -88,7 +57,7 @@ export default function App() {
           setCategories(data);
           setLoading(false);
         });
-    }, 2000);
+    }, 1000);
   }, []);
 
   useEffect(() => {
@@ -102,40 +71,64 @@ export default function App() {
           setProducts(data);
           setLoading(false);
         });
-    }, 2000);
+    }, 1000);
   }, []);
   const goToCart = () => {
     setShowCart(true);
     setHome(false);
     setAccount(false);
     setCategory(false);
+    setAdded(false);
   };
   const goHome = () => {
     setShowCart(false);
     setCategory(false);
     setAccount(false);
     setHome(true);
+    setAdded(false);
   };
   const goToAccount = () => {
     setShowCart(false);
     setCategory(false);
     setAccount(true);
     setHome(false);
+    setAdded(false);
   };
   const goToCategory = () => {
     setShowCart(false);
     setCategory(true);
     setAccount(false);
     setHome(false);
+    setAdded(false);
   };
-  const addToCart = () => {
+  const addItems = (itemName, itemPrice) => {
+    const price = parseInt(itemPrice);
+    const id = Math.floor(1000 + Math.random() * 9000);
+    const newitem = { id, itemName, price };
+    setCartItems([...cartItems, newitem]);
+    setPrices([...prices, price]);
+    setItemAdded(newitem.itemName);
+    setAdded(true);
     setCart(cart + 1);
+    const array = prices;
+
+    for (
+      var index = 0, // The iterator
+        length = array.length, // Cache the array length
+        sum = 0; // The total amount
+      index < length; // The "for"-loop condition
+      sum += array[index++] // Add number on each iteration
+    );
+    setGrand(sum + price);
   };
-  const removeFromCart = () => {
+
+  const removeFromCart = (id, price) => {
+    setCartItems(cartItems.filter((item) => item.id !== id));
     setCart(cart - 1);
-    if (cart < 0) {
-      setCart(0);
-    }
+    setGrand(grandTotal - price);
+    //setPrices([]);
+
+    //need to remove from from the prices array
   };
 
   const emptyCart = () => {
@@ -152,7 +145,15 @@ export default function App() {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
-        { text: "YES", onPress: () => setCart(0) },
+        {
+          text: "YES",
+          onPress: () => {
+            setCart(0);
+            setCartItems([]);
+            setPrices([]);
+            setGrand(0);
+          },
+        },
       ],
       { cancelable: true }
     );
@@ -175,8 +176,21 @@ export default function App() {
   return (
     <SafeAreaView style={[styles.container, { paddingTop: 30 }]}>
       <Header cart={cart} />
-      {home && <Main items={items} add={addToCart} remove={removeFromCart} />}
-      {showCart && <Cart items={cart} clear={emptyCart} goToHome={goHome} />}
+      {home && <Main items={items} />}
+      {showCart && (
+        <Cart
+          items={cart}
+          clear={emptyCart}
+          goToHome={goHome}
+          itemsOnCart={cartItems}
+          goToCat={goToCategory}
+          Verified={loggedin}
+          onDelete={removeFromCart}
+          amount={grandTotal}
+          goToLogin={goToAccount}
+          userPhone={userData.phone}
+        />
+      )}
       {account && (
         <Account
           isloggedin={loggedin}
@@ -192,6 +206,10 @@ export default function App() {
           Loading={Loading}
           typing={setTyping}
           products={products}
+          addToItems={addItems}
+          itemadded={itemadded}
+          added={added}
+          cancel={() => setAdded(false)}
         />
       )}
 

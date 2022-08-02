@@ -18,11 +18,14 @@ export const Footer = ({
 }) => {
   return (
     <View style={styles.footer}>
-      <Pressable style={styles.section} onPress={goHome}>
+      <Pressable
+        style={selectedHome === true ? styles.selectedSection : styles.section}
+        onPress={goHome}
+      >
         <MaterialCommunityIcons
           name="home-outline"
           size={35}
-          color={selectedHome == true ? "green" : "#000080"}
+          color={selectedHome == true ? "orange" : "#075E54"}
         />
 
         <Text
@@ -33,11 +36,14 @@ export const Footer = ({
           Home
         </Text>
       </Pressable>
-      <Pressable style={styles.section} onPress={goToCat}>
+      <Pressable
+        style={selectedCat === true ? styles.selectedSection : styles.section}
+        onPress={goToCat}
+      >
         <AntDesign
           name="appstore-o"
           size={35}
-          color={selectedCat == true ? "green" : "#000080"}
+          color={selectedCat == true ? "orange" : "#075E54"}
         />
         <Text
           style={
@@ -48,11 +54,14 @@ export const Footer = ({
         </Text>
       </Pressable>
 
-      <Pressable style={styles.section} onPress={goToCart}>
+      <Pressable
+        style={selectedCart === true ? styles.selectedSection : styles.section}
+        onPress={goToCart}
+      >
         <View>
           <Text
             style={
-              selectedCart === true ? { color: "green" } : { color: "#000080" }
+              selectedCart === true ? { color: "orange" } : { color: "#075E54" }
             }
           >
             {number > 0 ? number : "Empty"}
@@ -62,7 +71,7 @@ export const Footer = ({
         <MaterialCommunityIcons
           name="cart-variant"
           size={35}
-          color={selectedCart == true ? "green" : "#000080"}
+          color={selectedCart == true ? "orange" : "#075E54"}
         />
         <Text
           style={
@@ -72,12 +81,15 @@ export const Footer = ({
           Cart
         </Text>
       </Pressable>
-      <Pressable style={styles.section} onPress={goToAccount}>
-        {/* <Ionicons name="md-person" size={50} color="#000080" /> */}
+      <Pressable
+        style={selectedAcc === true ? styles.selectedSection : styles.section}
+        onPress={goToAccount}
+      >
+        {/* <Ionicons name="md-person" size={50} color="#075E54" /> */}
         <FontAwesome5
           name="user-circle"
           size={35}
-          color={selectedAcc == true ? "green" : "#000080"}
+          color={selectedAcc == true ? "orange" : "#075E54"}
         />
         <Text
           style={
@@ -92,7 +104,7 @@ export const Footer = ({
 };
 const styles = StyleSheet.create({
   footer: {
-    backgroundColor: "#F5F5D6",
+    backgroundColor: "#FFFFE0",
     //backgroundColor: "orange",
     flex: 0.15,
     width: "100%",
@@ -102,12 +114,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   footerText: {
-    color: "#000080",
+    color: "#075E54",
     fontSize: 14,
     //fontWeight: "bold",
   },
   footerTextSlected: {
-    color: "green",
+    color: "orange",
     fontSize: 14,
     fontWeight: "bold",
   },
@@ -116,13 +128,25 @@ const styles = StyleSheet.create({
     margin: 10,
     alignItems: "center",
     justifyContent: "center",
-    shadowColor: "#171717",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.4,
-    shadowRadius: 2,
+    // shadowColor: "#171717",
+    // shadowOffset: { width: 0, height: 3 },
+    // shadowOpacity: 0.4,
+    // shadowRadius: 2,
     width: "20%",
     height: 100,
-    borderRadius: 120,
+    //borderRadius: 120,
+  },
+  selectedSection: {
+    padding: 10,
+    margin: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "20%",
+    //height: 60,
+    // borderRadius: 160,
+    // backgroundColor: "#171717",
+    // display: "flex",
+    // flexDirection: "row",
   },
   image: {
     width: 50,

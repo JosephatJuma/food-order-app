@@ -7,19 +7,15 @@ export const Header = ({ cart }) => {
         source={require("../assets/Images/logo.png")}
         style={styles.logo}
       />
-      <Text style={styles.appName}>JJ Foods</Text>
-      {/* <View>
-        <Ionicons name="cart" size={32} color="white" />
-        <Text sty>{cart}</Text>
-      </View> */}
+      <Text style={styles.appName}>Unify Shopping</Text>
     </View>
   );
 };
 const styles = StyleSheet.create({
   header: {
-    //backgroundColor: "#800020",
-    backgroundColor: "#000080",
-    flex: 0.18,
+    //backgroundColor: "blue",
+    backgroundColor: "#075E54",
+    flex: 0.12,
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
@@ -27,9 +23,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   appName: {
-    color: "white",
+    color: "orange",
     //color: "#000080",
-    fontSize: 40,
+    fontSize: 30,
+    fontWeight: "bold",
   },
   logo: {
     width: 50,

@@ -72,7 +72,7 @@ export const Login = ({ changer, setNowLoggedIn, setUserDate, setToken }) => {
           value={email}
           onChangeText={setEmail}
         />
-        <Entypo name="user" size={30} color="#000080" />
+        <Entypo name="user" size={30} color="#075E54" />
       </View>
       <Text style={styles.inputText}>Password*</Text>
       <View style={styles.inputView}>
@@ -83,19 +83,20 @@ export const Login = ({ changer, setNowLoggedIn, setUserDate, setToken }) => {
           value={password}
           onChangeText={setPwd}
           maxLength={10}
+          //placeholderTextColor="red"
         />
         {showPwd === false ? (
           <Entypo
             name="eye"
             size={30}
-            color="#000080"
+            color="#075E54"
             onPress={() => setShowPwd(true)}
           />
         ) : (
           <Entypo
             name="eye-with-line"
             size={30}
-            color="#000080"
+            color="#075E54"
             onPress={() => setShowPwd(false)}
           />
         )}
@@ -106,7 +107,7 @@ export const Login = ({ changer, setNowLoggedIn, setUserDate, setToken }) => {
       </TouchableOpacity>
 
       <Pressable onPress={changer}>
-        <Text style={{ color: "#000080", fontSize: 20, fontWeight: "bold" }}>
+        <Text style={{ color: "#075E54", fontSize: 20, fontWeight: "bold" }}>
           Sign up instead
         </Text>
       </Pressable>
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#000080",
+    borderColor: "#075E54",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: 18,
-    color: "green",
+    color: "#075E54",
     padding: 10,
     fontWeight: "bold",
     height: 58,
@@ -148,12 +149,12 @@ const styles = StyleSheet.create({
     margin: "10%",
     marginTop: 10,
     marginBottom: 10,
-    color: "#000080",
+    color: "#075E54",
     fontWeight: "bold",
   },
   button: {
     width: "60%",
-    backgroundColor: "#000080",
+    backgroundColor: "orange",
     height: 50,
     margin: 20,
     borderRadius: 10,
@@ -164,6 +165,7 @@ const styles = StyleSheet.create({
     margin: 10,
     alignSelf: "center",
     fontWeight: "bold",
+    textTransform: "uppercase",
   },
   top: {
     display: "flex",
@@ -172,7 +174,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   topText: {
-    color: "#000080",
+    color: "#075E54",
     fontSize: 40,
     fontWeight: "bold",
     margin: 10,

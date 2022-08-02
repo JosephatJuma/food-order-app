@@ -23,14 +23,14 @@ export const Main = ({ items, add, remove }) => {
                 <Text style={styles.itemName}>{item.name}</Text>
                 <Text style={styles.itemName}>UGX: {item.price}</Text>
                 <View style={styles.bottom}>
-                  <Pressable style={styles.button} onPress={add}>
+                  <Pressable style={styles.button}>
                     <Ionicons name="cart" size={20} color="white" />
                     <Text style={(styles.text, styles.buttonText)}>
                       Add to cart
                     </Text>
                   </Pressable>
                   {times > 0 && (
-                    <Pressable style={styles.button} onPress={remove}>
+                    <Pressable style={styles.button}>
                       <Text style={(styles.text, styles.buttonText)}>
                         Delete
                       </Text>
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   item: {
     width: "95%",
-    backgroundColor: "#800020",
+    backgroundColor: "orange",
     height: 300,
     justifyContent: "center",
     alignSelf: "center",
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   button: {
-    backgroundColor: "green",
+    backgroundColor: "#128C7E",
     alignItems: "center",
     justifyContent: "center",
     height: 42,

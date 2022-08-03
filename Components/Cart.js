@@ -13,7 +13,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Down } from "./Down";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useState } from "react";
-import { Payment } from "../Payment";
+import { Payment } from "./Payment";
 
 export const Cart = ({
   items,
@@ -26,6 +26,7 @@ export const Cart = ({
   amount,
   goToLogin,
   userPhone,
+  placeNow,
 }) => {
   const [detailes, setDetails] = useState(false);
   const [pay, setPay] = useState(false);
@@ -62,11 +63,12 @@ export const Cart = ({
               flexDirection: "column",
               alignContent: "center",
               alignItems: "center",
+              marginTop: 80,
             }}
           >
             <AntDesign name="frown" size={100} color="#075E54" />
 
-            <Text style={styles.oopsMsg}>Oops, haven't placed orders yet!</Text>
+            <Text style={styles.oopsMsg}>Oops, haven't added to cart yet!</Text>
           </View>
         ) : (
           <View>
@@ -107,6 +109,7 @@ export const Cart = ({
                         </View>
                       );
                     })}
+
                   <View style={styles.CartItemsBottom}>
                     <Text style={styles.cartItemsTextBottom}>Total</Text>
                     <Text style={styles.cartItemsTextBottom}>UGX {amount}</Text>
@@ -191,6 +194,8 @@ export const Cart = ({
                 isVerified={Verified}
                 phone={userPhone}
                 amountPayable={amount}
+                paid={setPaid}
+                oderNow={placeNow}
               />
             )}
           </View>

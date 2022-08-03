@@ -40,7 +40,7 @@ export const Login = ({ changer, setNowLoggedIn, setUserDate, setToken }) => {
           const name = fname + " " + lname;
           const token = response.data.token;
           const photo = response.data.result[0].profilePhoto;
-          const user = { id, name, email, id, phone, photo, token };
+          const user = { id, name, email, phone, photo, token };
           //setSignup(false);
           //setToken(response.data.token);
           setEmail("");

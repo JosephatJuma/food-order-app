@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SignUp } from "./SignUp";
 import { Login } from "./Login";
 
@@ -7,6 +7,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
+import Axios from "axios";
 import {
   ScrollView,
   View,
@@ -17,22 +18,50 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+const api_urlhistory = "http://192.168.1.2:10000/api/userhistory";
+const api_urlorders = "http://192.168.1.2:10000/api/orders";
+
 export const Account = ({
   isloggedin,
   setIsLoggedIn,
   logout,
   user,
   userData,
+  goToCat,
 }) => {
   const [change, setChange] = useState(false);
-  //const [userData, setUserData] = useState({});
-  const [history, setHistory] = useState([
-    { id: 1, date: "14-05-2022" },
-    { id: 2, date: "22-04-2022" },
-    { id: 3, date: "01-04-2022" },
-    { id: 4, date: "30-03-2022" },
-    { id: 5, date: "11-03-2022" },
-  ]);
+  const [showhistory, setshowHistory] = useState(false);
+  const [showdetails, setshoDetailse] = useState(false);
+
+  const [history, setHistory] = useState([]);
+  const [oders, setOrders] = useState([]);
+
+  const getUserHistory = (id) => {
+    Axios.post(api_urlhistory, {
+      id: id,
+    })
+      .then(function (response) {
+        setHistory(response.data);
+        setshowHistory(!showhistory);
+      })
+      .catch(function (error) {
+        console.log(error);
+        alert("Unknown error occured");
+      });
+  };
+  const getorders = (id) => {
+    setshowHistory(false);
+    Axios.post(api_urlorders, {
+      id: id,
+    })
+      .then(function (response) {
+        setHistory(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+        alert("Unknown error occured");
+      });
+  };
 
   return (
     <>
@@ -65,6 +94,14 @@ export const Account = ({
 
                 <Text style={styles.areaText}>My Profile</Text>
               </View>
+              <AntDesign name="right" size={24} color="#C" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.area} onPress={goToCat}>
+              <View style={styles.areaItem}>
+                <Ionicons name="fast-food-outline" size={24} color="#075E54" />
+
+                <Text style={styles.areaText}>Check Caf</Text>
+              </View>
               <AntDesign name="right" size={24} color="#075E54" />
             </TouchableOpacity>
             <TouchableOpacity style={styles.area}>
@@ -74,7 +111,10 @@ export const Account = ({
               </View>
               <AntDesign name="right" size={24} color="#075E54" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.area}>
+            <TouchableOpacity
+              style={styles.area}
+              onPress={() => getUserHistory(userData.id)}
+            >
               <View style={styles.areaItem}>
                 <MaterialCommunityIcons
                   name="history"
@@ -101,26 +141,39 @@ export const Account = ({
               <AntDesign name="right" size={24} color="#075E54" />
             </TouchableOpacity>
           </View>
-          <View style={styles.details}>
-            <View style={styles.head}>
-              <MaterialCommunityIcons name="history" size={45} color="white" />
+          {showhistory && (
+            <View>
+              <View style={styles.details}>
+                <View style={styles.head}>
+                  <MaterialCommunityIcons
+                    name="history"
+                    size={45}
+                    color="white"
+                  />
 
-              <Text style={styles.text}>History</Text>
+                  <Text style={styles.text}>History</Text>
+                </View>
+
+                {history.length > 0 ? (
+                  history.map((order) => {
+                    //console.log(order);
+                    return (
+                      <Text style={styles.order} key={order.id}>
+                        Order ID: {order.id}
+                        <MaterialIcons
+                          name="expand-more"
+                          size={30}
+                          color="white"
+                        />
+                      </Text>
+                    );
+                  })
+                ) : (
+                  <Text style={styles.order}>No Available history to show</Text>
+                )}
+              </View>
             </View>
-            {history.length > 0 ? (
-              history.map((order) => {
-                //console.log(order);
-                return (
-                  <Text style={styles.order} key={order.id}>
-                    {order.date}
-                    <MaterialIcons name="expand-more" size={30} color="white" />
-                  </Text>
-                );
-              })
-            ) : (
-              <Text style={styles.order}>No Available history to show</Text>
-            )}
-          </View>
+          )}
         </ScrollView>
       ) : (
         <ScrollView style={styles.accountSection}>
@@ -219,13 +272,14 @@ const styles = StyleSheet.create({
     color: "#075E54",
     fontSize: 20,
     fontWeight: "300",
+    fontFamily: "sans-serif-condensed",
   },
   details: {
     backgroundColor: "orange",
     width: "95%",
     alignContent: "center",
     alignItems: "center",
-    height: 500,
+    MinHeight: 400,
     borderRadius: 10,
     alignSelf: "center",
     padding: 20,
@@ -242,7 +296,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
     fontFamily: "sans-serif-condensed",
-    letterSpacing: 3,
+    letterSpacing: 0,
   },
   icon: {
     width: 40,
@@ -256,7 +310,7 @@ const styles = StyleSheet.create({
     margin: 10,
     width: "90%",
     borderRadius: 10,
-    letterSpacing: 4,
+    letterSpacing: 0,
     backgroundColor: "#075E54",
   },
 });

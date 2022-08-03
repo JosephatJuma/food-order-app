@@ -17,7 +17,7 @@ export const Down = () => {
 };
 const styles = StyleSheet.create({
   down: {
-    backgroundColor: "#000080",
+    backgroundColor: "#075E54",
     width: "100%",
     minHeight: 150,
     padding: 20,

@@ -7,7 +7,7 @@ export const Header = ({ cart }) => {
         source={require("../assets/Images/logo.png")}
         style={styles.logo}
       />
-      <Text style={styles.appName}>Unify Shopping</Text>
+      <Text style={styles.appName}>JJ Foods</Text>
     </View>
   );
 };

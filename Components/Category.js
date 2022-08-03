@@ -24,6 +24,7 @@ export const Category = ({
   itemadded,
   added,
   cancel,
+  selectFunction,
 }) => {
   return (
     <>
@@ -64,7 +65,11 @@ export const Category = ({
             categories.map((cat) => {
               return (
                 <View key={cat.id}>
-                  <Pressable style={styles.catItem} key={cat.id}>
+                  <Pressable
+                    style={styles.catItem}
+                    key={cat.id}
+                    onPress={() => selectFunction(cat.Name)}
+                  >
                     <View style={styles.catTop}>
                       <Text style={styles.catName}>{cat.Name}</Text>
                     </View>

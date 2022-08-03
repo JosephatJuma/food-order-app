@@ -8,6 +8,7 @@ import { Category } from "./Components/Category";
 import { Footer } from "./Components/Footer";
 import { useState, useEffect } from "react";
 import { Alert } from "react-native";
+import Axios from "axios";
 //import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function App() {
@@ -42,9 +43,12 @@ export default function App() {
   const [grandTotal, setGrand] = useState(0);
   const [itemadded, setItemAdded] = useState("");
   const [added, setAdded] = useState(false);
+  //const [userHistory, setUserHistory]=useState()
 
   const api_url = "http://192.168.1.2:10000/api/all/cat";
   const productsapi_url = "http://192.168.1.2:10000/api/products";
+  const selectapi = "http://192.168.1.2:10000/api/selectcat";
+  const api_placeoder = "http://192.168.1.2:10000/api/placeorder";
 
   useEffect(() => {
     setTimeout(() => {
@@ -106,7 +110,7 @@ export default function App() {
     const id = Math.floor(1000 + Math.random() * 9000);
     const newitem = { id, itemName, price };
     setCartItems([...cartItems, newitem]);
-    setPrices([...prices, price]);
+    setPrices([...prices, { id, price }]);
     setItemAdded(newitem.itemName);
     setAdded(true);
     setCart(cart + 1);
@@ -117,18 +121,18 @@ export default function App() {
         length = array.length, // Cache the array length
         sum = 0; // The total amount
       index < length; // The "for"-loop condition
-      sum += array[index++] // Add number on each iteration
+      sum += array[index++].price // Add price on each iteration
     );
     setGrand(sum + price);
   };
 
   const removeFromCart = (id, price) => {
     setCartItems(cartItems.filter((item) => item.id !== id));
+    setPrices(prices.filter((price) => price.id !== id));
     setCart(cart - 1);
     setGrand(grandTotal - price);
-    //setPrices([]);
 
-    //need to remove from from the prices array
+    //removing from from the prices array as well as cart items array!
   };
 
   const emptyCart = () => {
@@ -137,12 +141,8 @@ export default function App() {
       "All Items will be removed from the cart!",
       [
         {
-          text: "No",
-          onPress: () => console.log("User pressed No"),
-        },
-        {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
+          onPress: () => console.log("Cancelled!"),
           style: "cancel",
         },
         {
@@ -168,10 +168,55 @@ export default function App() {
           onPress: () => console.log("Logout Cancelled"),
           style: "cancel",
         },
-        { text: "YES", onPress: () => setLoggedin(false) },
+        {
+          text: "YES",
+          onPress: () => {
+            setLoggedin(false);
+            setUserData({});
+            setCart(0);
+            setCartItems([]);
+            setPrices([]);
+          },
+        },
       ],
       { cancelable: true }
     );
+  };
+  const selectCategory = (name) => {
+    Axios.post(selectapi, {
+      name: name,
+    })
+      .then(function (response) {
+        setProducts(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+        Alert.alert("Unknown error occured");
+      });
+  };
+  const placeOrder = () => {
+    setCategory(true);
+    setShowCart(false);
+    setAccount(false);
+    setHome(false);
+    Axios.post(api_placeoder, {
+      order: cartItems, //order[0].itemName
+      user: userData, // user.id
+      grand: grandTotal,
+    })
+      .then(function (response) {
+        Alert.alert(
+          response.data,
+          "Success in placing order, our agent will deliver soon"
+        );
+        setCart(0);
+        setPrices([]);
+        setCartItems([]);
+      })
+      .catch(function (error) {
+        console.log(error);
+        Alert.alert("Unknown error occured");
+      });
   };
   return (
     <SafeAreaView style={[styles.container, { paddingTop: 30 }]}>
@@ -181,7 +226,7 @@ export default function App() {
         <Cart
           items={cart}
           clear={emptyCart}
-          goToHome={goHome}
+          goToHome={goToCategory}
           itemsOnCart={cartItems}
           goToCat={goToCategory}
           Verified={loggedin}
@@ -189,6 +234,7 @@ export default function App() {
           amount={grandTotal}
           goToLogin={goToAccount}
           userPhone={userData.phone}
+          placeNow={placeOrder}
         />
       )}
       {account && (
@@ -198,6 +244,7 @@ export default function App() {
           logout={logout}
           user={setUserData}
           userData={userData}
+          goToCat={goToCategory}
         />
       )}
       {category && (
@@ -210,6 +257,7 @@ export default function App() {
           itemadded={itemadded}
           added={added}
           cancel={() => setAdded(false)}
+          selectFunction={selectCategory}
         />
       )}
 
@@ -234,8 +282,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //backgroundColor: "tomato",
-    //backgroundColor: "#F5F5D6",
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",

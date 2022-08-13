@@ -12,8 +12,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import { Down } from "./Down";
-
+import { SearchBar, Dialog } from "react-native-elements";
 export const Category = ({
   categories,
   Loading,
@@ -25,22 +24,22 @@ export const Category = ({
   added,
   cancel,
   selectFunction,
+  search,
 }) => {
+  const [seraching, setSearching] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const [showDialog, setShowDialog] = useState(true);
   return (
     <>
-      <View style={styles.search}>
-        <TextInput
-          style={styles.input}
-          placeholder="Search item"
-          onPressOut={() => typing(true)}
-          onPressIn={() => typing(true)}
-          onTextInput={() => typing(true)}
-          onEndEditing={() => typing(false)}
-        />
-        <View style={styles.searchIcon}>
-          <Ionicons name="search" size={30} color="white" />
-        </View>
-      </View>
+      <SearchBar
+        placeholder="Search for Item..."
+        onChangeText={setSearchValue}
+        onTextInput={() => setSearching(true)}
+        onPressOut={() => search(searchValue)}
+        value={searchValue}
+        showLoading={seraching}
+        containerStyle={{ width: "100%", backgroundColor: "#fff" }}
+      />
       {added && (
         <View style={styles.added}>
           <Text style={{ color: "orange", fontSize: 18 }}>
@@ -57,10 +56,21 @@ export const Category = ({
       <ScrollView style={styles.cat}>
         <ScrollView style={styles.catSection} horizontal={true}>
           {Loading ? (
-            <Image
-              source={require("../assets/Images/loader.gif")}
-              style={styles.image}
-            />
+            <>
+              <Dialog
+                isVisible={showDialog}
+                onBackdropPress={() => setShowDialog(!showDialog)}
+                style={{ backgroundColor: "orange" }}
+                containerStyle={{ backgroundColor: "orange" }}
+              >
+                <Dialog.Title title="Wait a moment, loading products" />
+
+                <Image
+                  source={require("../assets/Images/loader.gif")}
+                  style={styles.image}
+                />
+              </Dialog>
+            </>
           ) : categories ? (
             categories.map((cat) => {
               return (
@@ -185,13 +195,12 @@ const styles = StyleSheet.create({
   catSection: {
     backgroundColor: "white",
     padding: 10,
-    //height: 140,
+    //width: "100%",
   },
   image: {
     width: 80,
     height: 80,
     alignSelf: "center",
-    marginLeft: 160,
   },
   catItem: {
     backgroundColor: "orange",

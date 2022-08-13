@@ -94,7 +94,7 @@ export const Account = ({
 
                 <Text style={styles.areaText}>My Profile</Text>
               </View>
-              <AntDesign name="right" size={24} color="#C" />
+              <AntDesign name="right" size={24} color="#075E54" />
             </TouchableOpacity>
             <TouchableOpacity style={styles.area} onPress={goToCat}>
               <View style={styles.areaItem}>
@@ -129,6 +129,17 @@ export const Account = ({
               <View style={styles.areaItem}>
                 <Ionicons name="settings" size={24} color="#075E54" />
                 <Text style={styles.areaText}>Settings</Text>
+              </View>
+              <AntDesign name="right" size={24} color="#075E54" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.area}>
+              <View style={styles.areaItem}>
+                <MaterialCommunityIcons
+                  name="share"
+                  size={24}
+                  color="#075E54"
+                />
+                <Text style={styles.areaText}>Invite Friends</Text>
               </View>
               <AntDesign name="right" size={24} color="#075E54" />
             </TouchableOpacity>

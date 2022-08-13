@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { Down } from "./Down";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { Entypo } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import {
   ScrollView,
   View,
@@ -8,44 +12,76 @@ import {
   StyleSheet,
   Image,
   Pressable,
+  TouchableOpacity,
 } from "react-native";
 
-export const Main = ({ items, add, remove }) => {
+export const Main = ({
+  items,
+  add,
+  remove,
+  signedin,
+  userName,
+  goToAcc,
+  gotoCart,
+}) => {
   const [times, setTimes] = useState(1);
   return (
-    <ScrollView style={styles.main}>
-      {items ? (
-        items.map((item) => {
-          return (
-            <View style={styles.item} key={item.id}>
-              <Image source={item.imageSrc} style={styles.image} />
-              <View style={styles.down}>
-                <Text style={styles.itemName}>{item.name}</Text>
-                <Text style={styles.itemName}>UGX: {item.price}</Text>
-                <View style={styles.bottom}>
-                  <Pressable style={styles.button}>
-                    <Ionicons name="cart" size={20} color="white" />
-                    <Text style={(styles.text, styles.buttonText)}>
-                      Add to cart
-                    </Text>
-                  </Pressable>
-                  {times > 0 && (
-                    <Pressable style={styles.button}>
-                      <Text style={(styles.text, styles.buttonText)}>
-                        Delete
-                      </Text>
-                    </Pressable>
-                  )}
-                </View>
-              </View>
-            </View>
-          );
-        })
-      ) : (
-        <View></View>
-      )}
-      <Down />
-    </ScrollView>
+    <View style={styles.main}>
+      <View style={styles.top}>
+        {signedin ? (
+          <Text style={styles.text}>Welcome back {userName}!</Text>
+        ) : (
+          <Text style={styles.text}>You are not Logged in</Text>
+        )}
+      </View>
+      <View style={styles.areas}>
+        <TouchableOpacity style={styles.area}>
+          <Ionicons name="wallet" size={30} color="orange" />
+          <Text style={styles.aereaText}>My Wallet</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.area} onPress={gotoCart}>
+          <Entypo name="shopping-cart" size={30} color="orange" />
+          <Text style={styles.aereaText}>Cart</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.area}>
+          <AntDesign name="customerservice" size={30} color="orange" />
+          <Text style={styles.aereaText}>Customer service</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.area}>
+          <MaterialIcons name="campaign" size={30} color="orange" />
+          <Text style={styles.aereaText}>Campaign</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.areas}>
+        <TouchableOpacity style={styles.area} onPress={goToAcc}>
+          <FontAwesome5 name="user-alt" size={30} color="orange" />
+          <Text style={styles.aereaText}>My Account</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.area}>
+          <AntDesign name="sharealt" size={30} color="orange" />
+          <Text style={styles.aereaText}>Share</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.area}>
+          <Entypo name="network" size={30} color="orange" />
+          <Text style={styles.aereaText}>Services</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.area}>
+          <Ionicons name="egg" size={30} color="orange" />
+          <Text style={styles.aereaText}>Get offer</Text>
+        </TouchableOpacity>
+      </View>
+      <ScrollView style={styles.main}>
+        <View style={styles.item}>
+          <Text>Item</Text>
+        </View>
+        <View style={styles.item}>
+          <Text>Item</Text>
+        </View>
+        <View style={styles.item}>
+          <Text>Item</Text>
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 const styles = StyleSheet.create({
@@ -53,57 +89,69 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     backgroundColor: "white",
-  },
-  item: {
-    width: "95%",
-    backgroundColor: "orange",
-    height: 300,
-    justifyContent: "center",
     alignSelf: "center",
-    borderRadius: 15,
+    alignContent: "center",
+  },
+  top: {
+    backgroundColor: "#075E50",
+    borderTopColor: "orange",
     padding: 10,
-    margin: 10,
-    color: "white",
+    height: 100,
+    borderBottomLeftRadius: 50,
+    borderBottomRightRadius: 50,
+
+    alignContent: "center",
+    alignItems: "center",
+  },
+  areas: {
+    width: "100%",
+    alignContent: "center",
     alignItems: "center",
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
+    alignSelf: "center",
   },
-  itemName: {
-    color: "white",
-    fontSize: 18,
+  area: {
+    backgroundColor: "#FFFFE0",
+    //backgroundColor: "orange",
+    borderRadius: 100,
+    width: "20%",
+    height: 80,
+    margin: 10,
+    marginTop: 10,
+    alignItems: "center",
+    alignContent: "center",
+    borderWidth: 1,
+    borderColor: "orange",
+    padding: 10,
+    alignSelf: "center",
   },
+  aereaText: {
+    color: "orange",
+    fontSize: 10,
+    fontWeight: "500",
+  },
+  item: {
+    width: "98%",
+    backgroundColor: "orange",
+    alignSelf: "center",
+    margin: 10,
+    height: 130,
+    borderRadius: 20,
+    padding: 10,
+  },
+
   image: {
     width: "90%",
     height: "80%",
     borderRadius: 10,
   },
-  button: {
-    backgroundColor: "#128C7E",
-    alignItems: "center",
-    justifyContent: "center",
-    height: 42,
-    borderRadius: 10,
-    margin: 10,
-    display: "flex",
-    flexDirection: "row",
 
-    width: 120,
-  },
-  buttonText: {
-    color: "white",
-  },
   text: {
-    fontSize: 20,
-    lineHeight: 21,
-    fontWeight: "bold",
-    letterSpacing: 0.25,
-  },
-  down: {
-    // backgroundColor: "purple",
-    // width: "100%",
-  },
-  bottom: {
-    display: "flex",
-    flexDirection: "row",
+    margin: 10,
+    fontSize: 26,
+    fontWeight: "300",
+    letterSpacing: -1,
+    color: "white",
   },
 });

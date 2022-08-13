@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, SafeAreaView } from "react-native";
-import { Header } from "./Components/Header";
+import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import { MyHeader } from "./Components/MyHeader";
 import { Main } from "./Components/Main";
 import { Cart } from "./Components/Cart";
 import { Account } from "./Components/Account";
@@ -9,7 +9,13 @@ import { Footer } from "./Components/Footer";
 import { useState, useEffect } from "react";
 import { Alert } from "react-native";
 import Axios from "axios";
-//import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Header } from "react-native-elements/dist/header/Header";
+import { Icon } from "react-native-elements/dist/icons/Icon";
+import { SearchBar } from "react-native-elements";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { SafeAreaInsetsContext } from "react-native-safe-area-context";
+import { AntDesign } from "@expo/vector-icons";
 
 export default function App() {
   //const insets = useSafeAreaInsets();
@@ -31,7 +37,7 @@ export default function App() {
   const [loggedin, setLoggedin] = useState(false);
   const [cart, setCart] = useState(0);
   const [home, setHome] = useState(true);
-  const [category, setCategory] = useState(false);
+  const [category, setCategory] = useState(true);
   const [showCart, setShowCart] = useState(false);
   const [account, setAccount] = useState(false);
   const [userData, setUserData] = useState({});
@@ -61,7 +67,7 @@ export default function App() {
           setCategories(data);
           setLoading(false);
         });
-    }, 1000);
+    }, 10000);
   }, []);
 
   useEffect(() => {
@@ -75,7 +81,7 @@ export default function App() {
           setProducts(data);
           setLoading(false);
         });
-    }, 1000);
+    }, 10000);
   }, []);
   const goToCart = () => {
     setShowCart(true);
@@ -84,25 +90,18 @@ export default function App() {
     setCategory(false);
     setAdded(false);
   };
-  const goHome = () => {
-    setShowCart(false);
-    setCategory(false);
-    setAccount(false);
-    setHome(true);
-    setAdded(false);
-  };
+
   const goToAccount = () => {
     setShowCart(false);
     setCategory(false);
     setAccount(true);
-    setHome(false);
     setAdded(false);
   };
   const goToCategory = () => {
     setShowCart(false);
     setCategory(true);
     setAccount(false);
-    setHome(false);
+
     setAdded(false);
   };
   const addItems = (itemName, itemPrice) => {
@@ -183,16 +182,23 @@ export default function App() {
     );
   };
   const selectCategory = (name) => {
+    setLoading(true);
     Axios.post(selectapi, {
       name: name,
     })
       .then(function (response) {
         setProducts(response.data);
+        setLoading(false);
       })
       .catch(function (error) {
         console.log(error);
         Alert.alert("Unknown error occured");
       });
+  };
+
+  const searchForProduct = (name) => {
+    //var text=name.contains()
+    //setProducts(products.filter((product) => product.name === name));
   };
   const placeOrder = () => {
     setCategory(true);
@@ -214,68 +220,92 @@ export default function App() {
         setCartItems([]);
       })
       .catch(function (error) {
-        console.log(error);
-        Alert.alert("Unknown error occured");
+        //console.log(error);
+        Alert.alert(error);
       });
   };
   return (
-    <SafeAreaView style={[styles.container, { paddingTop: 30 }]}>
-      <Header cart={cart} />
-      {home && <Main items={items} />}
-      {showCart && (
-        <Cart
-          items={cart}
-          clear={emptyCart}
-          goToHome={goToCategory}
-          itemsOnCart={cartItems}
-          goToCat={goToCategory}
-          Verified={loggedin}
-          onDelete={removeFromCart}
-          amount={grandTotal}
-          goToLogin={goToAccount}
-          userPhone={userData.phone}
-          placeNow={placeOrder}
-        />
-      )}
-      {account && (
-        <Account
-          isloggedin={loggedin}
-          setIsLoggedIn={setLoggedin}
-          logout={logout}
-          user={setUserData}
-          userData={userData}
-          goToCat={goToCategory}
-        />
-      )}
-      {category && (
-        <Category
-          categories={categories}
-          Loading={Loading}
-          typing={setTyping}
-          products={products}
-          addToItems={addItems}
-          itemadded={itemadded}
-          added={added}
-          cancel={() => setAdded(false)}
-          selectFunction={selectCategory}
-        />
-      )}
+    <NavigationContainer>
+      <Header
+        leftComponent={{
+          icon: "menu",
+          color: "orange",
+          size: 40,
+        }}
+        rightComponent={
+          <View>
+            <Image
+              source={require("./assets/Images/logo.png")}
+              style={styles.logo}
+            />
 
-      {!typing && (
-        <Footer
-          number={cart}
-          goToCart={goToCart}
-          goHome={goHome}
-          goToAccount={goToAccount}
-          goToCat={goToCategory}
-          selectedHome={home}
-          selectedAcc={account}
-          selectedCart={showCart}
-          selectedCat={category}
-        />
-      )}
-      <StatusBar style="auto" />
-    </SafeAreaView>
+            <TouchableOpacity style={{ marginLeft: 10 }}>
+              <Icon type="fontawesome" name="share" color="orange" />
+            </TouchableOpacity>
+          </View>
+        }
+        centerComponent={{ text: "JJ foods", style: styles.appName }}
+        containerStyle={{ backgroundColor: "#075E54", marginTop: 30 }}
+        backgroundColor="#fff"
+      />
+      <View style={[styles.container, { paddingTop: 30 }]}>
+        {showCart && (
+          <Cart
+            items={cart}
+            clear={emptyCart}
+            goToHome={goToCategory}
+            itemsOnCart={cartItems}
+            goToCat={goToCategory}
+            Verified={loggedin}
+            onDelete={removeFromCart}
+            amount={grandTotal}
+            goToLogin={goToAccount}
+            userPhone={userData.phone}
+            placeNow={placeOrder}
+          />
+        )}
+        {account && (
+          <Account
+            isloggedin={loggedin}
+            setIsLoggedIn={setLoggedin}
+            logout={logout}
+            user={setUserData}
+            userData={userData}
+            goToCat={goToCategory}
+          />
+        )}
+        {category && (
+          <Category
+            categories={categories}
+            Loading={Loading}
+            typing={setTyping}
+            products={products}
+            addToItems={addItems}
+            itemadded={itemadded}
+            added={added}
+            cancel={() => setAdded(false)}
+            selectFunction={selectCategory}
+            search={searchForProduct}
+          />
+        )}
+
+        {!typing && (
+          <Footer
+            number={cart}
+            goToCart={goToCart}
+            goToAccount={goToAccount}
+            goToCat={goToCategory}
+            selectedAcc={account}
+            selectedCart={showCart}
+            selectedCat={category}
+          />
+        )}
+        <StatusBar style="auto" />
+        <TouchableOpacity style={styles.lowerIcon}>
+          <AntDesign name="customerservice" size={40} color="#075E54" />
+        </TouchableOpacity>
+      </View>
+    </NavigationContainer>
   );
 }
 
@@ -286,7 +316,48 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  header: {
+    //backgroundColor: "blue",
+    backgroundColor: "#075E54",
+    flex: 0.12,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    display: "flex",
+    flexDirection: "row",
+    maxHeight: 150,
+  },
+  appName: {
+    color: "orange",
+    //color: "#000080",
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  logo: {
+    width: 50,
+    height: 50,
+  },
   main: {
     width: "100%",
+  },
+  lowerIcon: {
+    backgroundColor: "orange",
+    position: "absolute",
+    top: "85%",
+    right: "3%",
+    width: 60,
+    height: 60,
+    borderRadius: 100,
+    alignItems: "center",
+    alignContent: "center",
+    padding: 8,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 10,
+    elevation: 5,
   },
 });

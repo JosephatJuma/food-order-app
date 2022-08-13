@@ -4,14 +4,13 @@ import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+import { Badge } from "react-native-elements/dist/badge/Badge";
 
 export const Footer = ({
   number,
   goToCart,
-  goHome,
   goToAccount,
   goToCat,
-  selectedHome,
   selectedCart,
   selectedAcc,
   selectedCat,
@@ -19,30 +18,12 @@ export const Footer = ({
   return (
     <View style={styles.footer}>
       <Pressable
-        style={selectedHome === true ? styles.selectedSection : styles.section}
-        onPress={goHome}
-      >
-        <MaterialCommunityIcons
-          name="home-outline"
-          size={35}
-          color={selectedHome == true ? "orange" : "#075E54"}
-        />
-
-        <Text
-          style={
-            selectedHome === true ? styles.footerTextSlected : styles.footerText
-          }
-        >
-          Home
-        </Text>
-      </Pressable>
-      <Pressable
         style={selectedCat === true ? styles.selectedSection : styles.section}
         onPress={goToCat}
       >
         <AntDesign
           name="appstore-o"
-          size={35}
+          size={30}
           color={selectedCat == true ? "orange" : "#075E54"}
         />
         <Text
@@ -58,19 +39,9 @@ export const Footer = ({
         style={selectedCart === true ? styles.selectedSection : styles.section}
         onPress={goToCart}
       >
-        <View>
-          <Text
-            style={
-              selectedCart === true ? { color: "orange" } : { color: "#075E54" }
-            }
-          >
-            {number > 0 ? number : "Empty"}
-          </Text>
-        </View>
-
         <MaterialCommunityIcons
           name="cart-variant"
-          size={35}
+          size={30}
           color={selectedCart == true ? "orange" : "#075E54"}
         />
         <Text
@@ -80,6 +51,22 @@ export const Footer = ({
         >
           Cart
         </Text>
+        <Badge
+          status="success"
+          containerStyle={{
+            position: "absolute",
+            top: "20%",
+            right: "35%",
+          }}
+          badgeStyle={{
+            width: 25,
+            height: 25,
+            borderRadius: 100,
+            backgroundColor: selectedCart === true ? "orange" : "#075E54",
+          }}
+          value={number}
+          textStyle={{ color: "#fff", fontSize: 10 }}
+        />
       </Pressable>
       <Pressable
         style={selectedAcc === true ? styles.selectedSection : styles.section}
@@ -88,7 +75,7 @@ export const Footer = ({
         {/* <Ionicons name="md-person" size={50} color="#075E54" /> */}
         <FontAwesome5
           name="user-circle"
-          size={35}
+          size={30}
           color={selectedAcc == true ? "orange" : "#075E54"}
         />
         <Text
@@ -112,6 +99,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     display: "flex",
     flexDirection: "row",
+    maxHeight: 70,
   },
   footerText: {
     color: "#075E54",
@@ -128,25 +116,17 @@ const styles = StyleSheet.create({
     margin: 10,
     alignItems: "center",
     justifyContent: "center",
-    // shadowColor: "#171717",
-    // shadowOffset: { width: 0, height: 3 },
-    // shadowOpacity: 0.4,
-    // shadowRadius: 2,
-    width: "20%",
+    width: "30%",
     height: 100,
-    //borderRadius: 120,
   },
   selectedSection: {
     padding: 10,
     margin: 10,
     alignItems: "center",
     justifyContent: "center",
-    width: "20%",
-    //height: 60,
-    // borderRadius: 160,
-    // backgroundColor: "#171717",
-    // display: "flex",
-    // flexDirection: "row",
+    width: "30%",
+    //backgroundColor: "#075E54",
+    height: 100,
   },
   image: {
     width: 50,
